@@ -1,3 +1,13 @@
+GIT
+  remote: git://github.com/cerebris/jsonapi-resources.git
+  revision: 54cd05d5c6de906f643eec713ff3fbba0b711479
+  branch: master
+  specs:
+    jsonapi-resources (0.9.0.pre)
+      activerecord (>= 4.1)
+      concurrent-ruby
+      railties (>= 4.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -57,6 +67,8 @@ GEM
     factory_girl_rails (4.7.0)
       factory_girl (~> 4.7.0)
       railties (>= 3.0.0)
+    faker (1.6.6)
+      i18n (~> 0.5)
     ffi (1.9.14)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
@@ -157,6 +169,8 @@ DEPENDENCIES
   byebug
   capybara
   factory_girl_rails
+  faker
+  jsonapi-resources!
   listen (~> 3.0.5)
   pg (~> 0.18)
   puma (~> 3.0)
