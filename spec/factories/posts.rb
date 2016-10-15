@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :post do
-    title "MyString"
-    body "MyString"
-    author "MyString"
+    sequence(:title, 1000) { |n| "Title#{n}" }
+    sequence(:body, 1000) { |n| "Body#{n}" }
+    author "Author"
   end
 end
