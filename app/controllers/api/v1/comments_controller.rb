@@ -1,2 +1,2 @@
-class Api::V1::CommentsController < JSONAPI::ResourceController
+class Api::V1::CommentsController < ApplicationController
 end

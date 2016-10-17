@@ -16,57 +16,62 @@ module Api
         end
 
         it "shows an array of all posts" do
-          expect(JSON.parse(response.body)["data"][0]["attributes"]["title"])
-            .to eq(posts[0]["title"])
-          expect(JSON.parse(response.body)["data"][1]["attributes"]["title"])
-            .to eq(posts[1]["title"])
+          byebug
+          JSON.parse(response.body).each_with_index do |body, index|
+            expect(body["title"]).to eq(posts[index]["title"])
+          end
         end
       end
 
-      describe "POST #create" do
-        # let!(:post_obj) { FactoryGirl.create(:post, user: user) }
-        it "creates the new post" do
-          post api_v1_posts_url,
-            params: {
-                      "data": { 
-                        "type": "posts",
-                        "attributes": {
-                          "title" => post_obj.title,
-                          "body" => post_obj.body,
-                        },
-                        "relationships": {
-                          "user": {
-                            "data": {
-                              "type": "users",
-                              "id": user.id
-                            }
-                          }
-                        }
-                      }
-                    }.to_json,
-            headers: { "CONTENT_TYPE" => "application/vnd.api+json"}
-          expect(response.content_type).to eq("application/vnd.api+json")
-          expect(response.status).to eq(201)
-        end
-      end
+      # describe "POST #create" do
+      #   # let!(:post_obj) { FactoryGirl.create(:post, user: user) }
+      #   it "creates the new post" do
+      #     post api_v1_posts_url,
+      #       params: {
+      #                "title" => post_obj.title,
+      #                "body" => post_obj.body,
+      #               },
+      #                   "relationships": {
+      #                     "user": {
+      #                       "data": {
+      #                         "type": "users",
+      #                         "id": user.id
+      #                       }
+      #                     }
+      #                   }
+      #                 }
+      #               }.to_json,
+      #       headers: { "CONTENT_TYPE" => "application/vnd.api+json"}
+      #     expect(response.content_type).to eq("application/vnd.api+json")
+      #     expect(response.status).to eq(201)
+      #   end
+      # end
 
-      describe "PUT #update" do
-        it "changes post title" do
-          patch api_v1_post_path(post_obj.id),
-            params:
-              {
-                "data": {
-                  "id": post_obj.id,
-                  "type": "posts",
-                  "attributes": {
-                    "title" => "new title",
-                  }
-                }
-              }.to_json,
-            headers: { "CONTENT_TYPE" => "application/vnd.api+json"}
-          expect(JSON.parse(response.body)["data"]["attributes"]["title"]).to eq "new title"
-        end
-      end
+      # describe "PUT #update" do
+      #   it "changes post title" do
+      #     patch api_v1_post_path(post_obj.id),
+      #       params:
+      #         {
+      #           "data": {
+      #             "id": post_obj.id,
+      #             "type": "posts",
+      #             "attributes": {
+      #               "title" => "new title",
+      #             }
+      #           }
+      #         }.to_json,
+      #       headers: { "CONTENT_TYPE" => "application/vnd.api+json"}
+      #     expect(JSON.parse(response.body)["data"]["attributes"]["title"]).to eq "new title"
+      #   end
+      # end
+
+      # describe "DELETE #destroy" do
+      #   it "deletes post" do
+          
+      #     expect { delete api_v1_post_path(post_obj) }.
+      #       to change(Post, :count).by(-1)
+      #   end
+      # end
     end
   end
 end
