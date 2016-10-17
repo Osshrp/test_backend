@@ -1,20 +1,21 @@
+include ActionController::HttpAuthentication::Token::ControllerMethods
 class ApplicationController < ActionController::API
-  include ActionController::HttpAuthentication::Basic::ControllerMethods
-  include ActionController::MimeResponds
-  # http_basic_authenticate_with name: "admin", password: "secret"
-  byebug
-  before_action :auth
+  before_action :authenticate
 
-  def auth
-    authenticate_with_http_basic do |email, password|
-      user = User.find_by(email: email)
-      if user && user.password == password
-        @current_user = user
-      else
-        request_http_basic_authentication
-      # render json: { message: 'Authentication failed'}, status: 401
-      end
+  private
+
+  def authenticate
+    authenticate_token || render_unauthorized
+  end
+
+  def authenticate_token
+    authenticate_with_http_token do |token, options|
+      @current_user = User.find_by(token: token)
     end
-    
+  end
+
+  def render_unauthorized
+    self.headers['WWW-Authenticate'] = 'Token realm="Application"'
+    render json: 'Bad credentials', status: 401
   end
 end

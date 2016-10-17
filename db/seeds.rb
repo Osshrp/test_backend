@@ -14,14 +14,13 @@ bob    = User.where(
   email: Faker::Internet.free_email
 ).create
 
-2.times do
+20.times do
   post = george.posts.create(
     title: [Faker::Hacker.adjective, Faker::Hacker.noun].join(' ').titleize,
     body: Faker::Hacker.say_something_smart,
     author: george.nickname,
     published_at: Faker::Date.between(3.days.ago, Date.today)
   )
-  # byebug
   post.comments.create(
     body: Faker::Hipster.sentence,
     author: bob.nickname,
