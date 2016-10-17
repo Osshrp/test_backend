@@ -9,69 +9,71 @@ module Api
       describe "GET #index" do
         # let!(@user) { FactoryGirl.create(:user) }
         let!(:posts) { FactoryGirl.create_list(:post, 2, user: user) }
-        before { get api_v1_posts_url }
 
-        it "has a 200 status code" do
-          expect(response.status).to eq(200)
+        describe "unauthorized access" do
+
+          it "has a 401 status code" do
+            get api_v1_posts_url,
+              params: {},
+              headers: {Authorization: "Token token="}
+            expect(response.status).to eq(401)
+          end
         end
 
-        it "shows an array of all posts" do
-          byebug
-          JSON.parse(response.body).each_with_index do |body, index|
-            expect(body["title"]).to eq(posts[index]["title"])
+        describe "authorized access" do
+          before do
+            get api_v1_posts_url,
+              params: { },
+              headers: {Authorization: "Token token=#{user.token}"}
+          end
+          it "has a 200 status code" do
+            expect(response.status).to eq(200)
+          end
+
+          it "has json content type" do
+            expect(response.headers['Content-Type'])
+              .to eq('application/json; charset=utf-8')
+          end
+
+        end
+
+        describe "it has headers" do
+          it "with total_entries" do
+            get api_v1_posts_url,
+            params: { page: "1" },
+            headers: {Authorization: "Token token=#{user.token}"}
+            expect(JSON.parse(response.headers["X-Pagination"])["total_entries"])
+              .to eq(2)
+          end
+
+          it "with total_pages" do
+            get api_v1_posts_url,
+            params: { page: "1" },
+            headers: {Authorization: "Token token=#{user.token}"}
+            expect(JSON.parse(response.headers["X-Pagination"])["total_pages"])
+              .to eq(1)
           end
         end
       end
 
-      # describe "POST #create" do
-      #   # let!(:post_obj) { FactoryGirl.create(:post, user: user) }
-      #   it "creates the new post" do
-      #     post api_v1_posts_url,
-      #       params: {
-      #                "title" => post_obj.title,
-      #                "body" => post_obj.body,
-      #               },
-      #                   "relationships": {
-      #                     "user": {
-      #                       "data": {
-      #                         "type": "users",
-      #                         "id": user.id
-      #                       }
-      #                     }
-      #                   }
-      #                 }
-      #               }.to_json,
-      #       headers: { "CONTENT_TYPE" => "application/vnd.api+json"}
-      #     expect(response.content_type).to eq("application/vnd.api+json")
-      #     expect(response.status).to eq(201)
-      #   end
-      # end
-
-      # describe "PUT #update" do
-      #   it "changes post title" do
-      #     patch api_v1_post_path(post_obj.id),
-      #       params:
-      #         {
-      #           "data": {
-      #             "id": post_obj.id,
-      #             "type": "posts",
-      #             "attributes": {
-      #               "title" => "new title",
-      #             }
-      #           }
-      #         }.to_json,
-      #       headers: { "CONTENT_TYPE" => "application/vnd.api+json"}
-      #     expect(JSON.parse(response.body)["data"]["attributes"]["title"]).to eq "new title"
-      #   end
-      # end
-
-      # describe "DELETE #destroy" do
-      #   it "deletes post" do
-          
-      #     expect { delete api_v1_post_path(post_obj) }.
-      #       to change(Post, :count).by(-1)
-      #   end
-      # end
+      describe "POST #create" do
+        it "creates the new post" do
+          post api_v1_posts_url,
+            params: { "post": 
+                      {
+                        "title": post_obj.title,
+                        "body": post_obj.body,
+                      }
+                    }.to_json,
+            headers: { 
+                       "Content-Type" => "application/json",
+                       Authorization: "Token token=#{user.token}"
+                     }
+          expect(response.content_type).to eq("application/json")
+          expect(response.status).to eq(201)
+          expect(JSON.parse(response.body)).to have_key("published_at")
+        end
+      end
     end
   end
 end
