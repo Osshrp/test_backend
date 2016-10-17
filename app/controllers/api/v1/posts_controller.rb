@@ -1,11 +1,16 @@
 class Api::V1::PostsController < ApplicationController
+  set_pagination_headers :posts, only: [:index]
+
   def index
-    @posts = Post.all
+    @posts = Post.paginate(
+                            page: params[:page],
+                            per_page: params[:per_page]
+                          ).order("published_at")
     render json: @posts
   end
 
   def show
-    @post = Post.find params["id"]
+    @post = Post.find params[:id]
     render json: @post
   end
 
@@ -27,7 +32,7 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def check_published_at
-    unless post_params["published_at"]
+    unless post_params[:published_at]
       @post.published_at = DateTime.now
     end
   end
