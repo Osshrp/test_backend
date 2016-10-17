@@ -1,4 +1,5 @@
 class Api::V1::PostsController < ApplicationController
+  before_action :authenticate
   set_pagination_headers :posts, only: [:index]
 
   def index

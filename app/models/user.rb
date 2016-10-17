@@ -14,6 +14,6 @@ class User < ApplicationRecord
   end
 
   def generate_token
-    SecureRandom.uuid.delete(/\-/,'')
+    SecureRandom.uuid.gsub(/\-/,'')
   end
 end
