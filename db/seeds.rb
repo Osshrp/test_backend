@@ -5,25 +5,32 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-george = User.where(
-  nickname: Faker::Internet.user_name,
-  email: Faker::Internet.free_email
-).create
-bob    = User.where(
-  nickname: Faker::Internet.user_name,
-  email: Faker::Internet.free_email
-).create
 
-20.times do
-  post = george.posts.create(
-    title: [Faker::Hacker.adjective, Faker::Hacker.noun].join(' ').titleize,
-    body: Faker::Hacker.say_something_smart,
-    author: george.nickname,
-    published_at: Faker::Date.between(3.days.ago, Date.today)
-  )
-  post.comments.create(
-    body: Faker::Hipster.sentence,
-    author: bob.nickname,
-    published_at: Faker::Date.between(2.days.ago, Date.today)
-  )
+10.times do
+  george = User.where(
+    nickname: Faker::Internet.user_name,
+    email: Faker::Internet.free_email,
+    password: Faker::Internet.password(5)
+  ).create
+  bob = User.where(
+    nickname: Faker::Internet.user_name,
+    email: Faker::Internet.free_email,
+    password: Faker::Internet.password(5)
+  ).create
+
+  5.times do
+    post = george.posts.create(
+      title: [Faker::Hacker.adjective, Faker::Hacker.noun].join(' ').titleize,
+      body: Faker::Hacker.say_something_smart,
+      author: george.nickname,
+      user_id: george.id,
+      published_at: Faker::Date.between(3.days.ago, Date.today)
+    )
+    post.comments.create(
+      body: Faker::Hipster.sentence,
+      author: bob.nickname,
+      user_id: bob.id,
+      published_at: Faker::Date.between(2.days.ago, Date.today)
+    )
+  end
 end

@@ -1,11 +1,10 @@
 class Api::V1::ReportsController < ApplicationController
-  # include ActionView::Layouts
   before_action :authenticate
 
+
   def by_author
-    # @params = report_params
-    ReportMailer.delay.by_author(JSON.parse(report_params.to_json))
-    # GenerateReport.start(JSON.parse(report_params.to_json))
+    users = SortUsers.sort(report_params)
+    ReportMailer.by_author(JSON.parse(report_params.to_json), users).deliver_now
     render json: "Report generation started"
   end
 

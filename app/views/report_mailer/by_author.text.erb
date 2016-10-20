@@ -1,8 +1,0 @@
-Analitic report
-----------------
-<% @users.each do |user| %>
-  <% user_posts = user.posts.where(published_at: @params["start_date"].to_date..@params["end_date"].to_date) %>
-  <% user_comments = user.comments.where(published_at: @params["start_date"].to_date..@params["end_date"].to_date) %>
-  <p> Nickname | Email | Posts | Comments |</p>
-  | <%= user.nickname %> | <%= user.email %> | <%= user_posts.count %> | <%= user_comments.count %> |
-<% end %>
