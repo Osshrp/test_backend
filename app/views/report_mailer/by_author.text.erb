@@ -1,0 +1,7 @@
+  Analitic report
+--------------------
+
+| Nickname | Email | Posts | Comments
+<% @users.each do |user| %>
+| <%= user[:nickname] %> | <%= user[:email] %> | <%= user[:posts] %> | <%= user[:comments] %> 
+<% end %>

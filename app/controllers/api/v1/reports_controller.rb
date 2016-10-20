@@ -4,7 +4,7 @@ class Api::V1::ReportsController < ApplicationController
 
   def by_author
     users = SortUsers.sort(report_params)
-    ReportMailer.by_author(JSON.parse(report_params.to_json), users).deliver_now
+    ReportMailer.delay.by_author(report_params[:email], users)
     render json: "Report generation started"
   end
 

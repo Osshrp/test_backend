@@ -3,17 +3,12 @@
   <th>Email</th>
   <th>Posts</th>
   <th>Comments</th>
-
-  <% users_posts = @users[0] %>
-  <% users_commentss = @users[1] %>
-  <% users_posts.each do |user| %>
-    <% user_posts = user["qc"] %>
-    
+  <%- @users.each do |user| %>
     <tr> 
-      <td><%= user["nickname"] %></td>
-      <td><%= user["email"] %></td>
-      <td><%= user_posts %></td>
-      <td><%= user_posts%></td>
+      <td><%= user[:nickname] %></td>
+      <td><%= user[:email] %></td>
+      <td><%= user[:posts] %></td>
+      <td><%= user[:comments]%></td>
     </tr>
   <% end %>
 </table>

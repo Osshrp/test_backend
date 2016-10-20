@@ -1,8 +1,8 @@
 class ReportMailer < ApplicationMailer
 
-  def by_author(params, users)
-    @params = params
+  def by_author(email, users)
+    # @params = params
     @users = users
-    mail(to: params["email"], subject: 'Analitic reporpt')
+    mail(to: email, subject: 'Analitic report')
   end
 end
