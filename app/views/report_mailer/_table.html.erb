@@ -1,0 +1,14 @@
+<table>
+  <th>Nickname</th>
+  <th>Email</th>
+  <th>Posts</th>
+  <th>Comments</th>
+  <%- @users.each do |user| %>
+    <tr> 
+      <td><%= user[:nickname] %></td>
+      <td><%= user[:email] %></td>
+      <td><%= user[:posts] %></td>
+      <td><%= user[:comments]%></td>
+    </tr>
+  <% end %>
+</table>
