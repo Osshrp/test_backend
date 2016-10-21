@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :comments
 
   validates :nickname, :email, :password, presence: true
+  mount_uploader :avatar, AvatarUploader
 
   private
 

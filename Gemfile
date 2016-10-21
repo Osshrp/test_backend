@@ -24,6 +24,19 @@ gem 'delayed_job_active_record'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
+gem 'sass-rails'
+gem 'uglifier'
+gem 'coffee-rails'
+gem 'jquery-rails'
+gem 'turbolinks', '~> 5'
+gem 'jbuilder', '~> 2.5'
+
+gem 'bootstrap-sass', '~> 3.3.6'
+gem 'simple_form'
+gem 'slim-rails'
+gem 'mini_magick'
+gem 'carrierwave', '>= 1.0.0.beta', '< 2.0'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
