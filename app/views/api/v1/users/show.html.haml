@@ -1,21 +1,8 @@
-!!! 5
-%html
-  %head
-    %link{ rel: "stylesheet",
-    href: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css",
-    integrity: "sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u",
-    crossorigin: "anonymous" }
-%body
-  .container
-    .row
-      .col-sm-6.col-md-4
-        .thumbnail
-          %img.media-object.img-rounded{ src: @user.avatar, alt: "..." }
-          = form_for @user, url: api_v1_user_path do |f|
-            .caption
-              %h3.text-primary Your avatar
-            .form-group
-              / -byebug
-              = f.file_field :avatar
-            %button.btn.btn-primary{ type: "submit" } Load
+%img.media-object.img-rounded{ src: @user.avatar, alt: "..." }
+= form_for @user, url: api_v1_user_path do |f|
+  .caption
+    %h3.text-primary Your avatar
+  .form-group
+    = f.file_field :avatar
+  %button.btn.btn-primary{ type: "submit" } Load
 

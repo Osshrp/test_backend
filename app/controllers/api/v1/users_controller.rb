@@ -1,14 +1,15 @@
-class Api::V1::UsersController < ActionController::Base
-  # layout "application", only: [:show]
+class Api::V1::UsersController < ApplicationController
+
+  def index
+    render json: User.all
+  end
 
   def show
-    @user = User.find params["id"]
-    # render :layout => "application"
+    find_user
   end
 
   def update
-    user = User.find params[:id]
-    if user.update user_params
+    if find_user.update user_params
       redirect_to api_v1_user_path
     end
   end
@@ -26,5 +27,9 @@ class Api::V1::UsersController < ActionController::Base
 
   def user_params
     params.require(:user).permit(:email, :password, :nickname, :avatar)
+  end
+
+  def find_user
+    @user = User.find params[:id]
   end
 end

@@ -1,0 +1,23 @@
+!!! 5
+%html
+  %head
+    %title VoltBackend
+    = csrf_meta_tags
+
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+
+  %body>
+    .container
+      .row
+        .xs-12
+          %nav.navbar.navbar-default
+            .container
+              .collapse.navbar-collapse
+                %ul.nav.navbar-nav
+                  %li
+                    %a{ href: api_v1_users_url } Home
+                  %li.active
+                    %a{ href: api_v1_user_url } Profile
+
+          = yield

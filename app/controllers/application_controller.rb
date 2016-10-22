@@ -1,5 +1,4 @@
-include ActionController::HttpAuthentication::Token::ControllerMethods
-class ApplicationController < ActionController::API
+class ApplicationController < ActionController::Base
 
   private
 
