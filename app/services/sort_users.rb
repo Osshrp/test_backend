@@ -11,6 +11,6 @@ class SortUsers
       }
       users << user_hash
     end
-    users.sort_by { |user| (user[:posts] + user[:comments]) }
+    users.sort_by { |user| user[:quality] = -(user[:posts]+user[:comments]).to_f/10 }
   end
 end
