@@ -7,12 +7,9 @@ class Api::V1::UsersController < ActionController::Base
   end
 
   def update
-    byebug
     user = User.find params[:id]
     if user.update user_params
       redirect_to api_v1_user_path
-    else
-      render '123'
     end
   end
 

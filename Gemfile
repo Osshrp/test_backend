@@ -33,9 +33,15 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'simple_form'
-gem 'slim-rails'
+gem 'haml-rails'
 gem 'mini_magick'
-gem 'carrierwave', '>= 1.0.0.beta', '< 2.0'
+gem 'carrierwave-aws'
+# gem 'carrierwave', '>= 1.0.0.beta', '< 2.0'
+gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
+gem 'file_validators'
+# gem 'aws-sdk', '~> 2'
+
+gem 'rails_12factor', group: :production
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

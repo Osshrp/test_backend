@@ -5,14 +5,18 @@ class AvatarUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
-  storage :file
-  # storage :fog
+  # storage :file
+  storage :aws
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    # "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-    'assets/images'
+    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    # 'assets/images'
+  end
+
+  def cache_dir
+    "#{Rails.root}/tmp/uploads"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -30,11 +34,19 @@ class AvatarUploader < CarrierWave::Uploader::Base
   #   # do something
   # end
 
+  # def extension_whitelist
+  #   %w(jpg png)
+  # end
+
+  # def content_type_whitelist
+  #   /image\//
+  # end
+
   process resize_to_fit: [300, 300]
 
   # Create different versions of your uploaded files:
   version :thumb do
-    process resize_to_fit: [50, 50]
+    process resize_to_fit: [20, 20]
   end
 
   # Add a white list of extensions which are allowed to be uploaded.
