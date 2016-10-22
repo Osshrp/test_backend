@@ -41,6 +41,7 @@ gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
 gem 'file_validators'
 
 gem 'rails_12factor', group: :production
+gem 'sendgrid-ruby'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
