@@ -1,11 +1,10 @@
 class Api::V1::ReportsController < ApplicationController
   before_action :authenticate
 
-
   def by_author
-    users = SortUsers.sort(report_params)
+    users = SelectUsers.select(report_params.to_h)
     ReportMailer.delay.by_author(report_params[:email], users)
-    render json: "Report generation started"
+    render json: "Report generation started\n"
   end
 
   private

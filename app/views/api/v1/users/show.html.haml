@@ -1,0 +1,8 @@
+%img.media-object.img-rounded{ src: @user.avatar, alt: "..." }
+= form_for @user, url: api_v1_user_path do |f|
+  .caption
+    %h3.text-primary Your avatar
+  .form-group
+    = f.file_field :avatar
+  %button.btn.btn-primary{ type: "submit" } Load
+

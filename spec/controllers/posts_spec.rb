@@ -73,6 +73,21 @@ module Api
           expect(response.status).to eq(201)
           expect(JSON.parse(response.body)).to have_key("published_at")
         end
+
+        it "returns array of errors" do
+          post api_v1_posts_url,
+            params: { "post": 
+                      {
+                        "title": post_obj.title
+                      }
+                    }.to_json,
+            headers: { 
+                       "Content-Type" => "application/json",
+                       Authorization: "Token token=#{user.token}"
+                     }
+          expect(response.content_type).to eq("application/json")
+          expect(JSON.parse(response.body)).to include({"body"=>["can't be blank"]})
+        end
       end
     end
   end
