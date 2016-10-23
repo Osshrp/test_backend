@@ -18,19 +18,19 @@
     password: Faker::Internet.password(5)
   ).create
 
-  5.times do
+  20.times do
     post = george.posts.create(
       title: [Faker::Hacker.adjective, Faker::Hacker.noun].join(' ').titleize,
       body: Faker::Hacker.say_something_smart,
       author: george.nickname,
       user_id: george.id,
-      published_at: Faker::Date.between(3.days.ago, Date.today)
+      published_at: Faker::Date.between(1.month.ago, Date.today)
     )
     post.comments.create(
       body: Faker::Hipster.sentence,
       author: bob.nickname,
       user_id: bob.id,
-      published_at: Faker::Date.between(2.days.ago, Date.today)
+      published_at: Faker::Date.between(1.month.ago, Date.today)
     )
   end
 end
