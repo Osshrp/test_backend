@@ -7,7 +7,7 @@ class SelectUsers
         nickname: user.nickname,
         email: user.email,
         posts: user.posts.where("published_at between ? and ?",
-         params[:start_date], params[:end_date]).count,
+         params[:start_date].to_date, params[:end_date].to_date).count,
         comments: user.comments.where("published_at between ? and ?",
          params[:start_date], params[:end_date]).count
       }
