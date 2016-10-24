@@ -38,18 +38,17 @@ module Api
         end
 
         describe "it has headers" do
-          it "with total_entries" do
+          before do
             get api_v1_posts_url,
             params: { page: "1" },
             headers: {Authorization: "Token token=#{user.token}"}
+          end
+          it "with total_entries" do
             expect(JSON.parse(response.headers["X-Pagination"])["total_entries"])
               .to eq(2)
           end
 
           it "with total_pages" do
-            get api_v1_posts_url,
-            params: { page: "1" },
-            headers: {Authorization: "Token token=#{user.token}"}
             expect(JSON.parse(response.headers["X-Pagination"])["total_pages"])
               .to eq(1)
           end

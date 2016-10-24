@@ -4,7 +4,7 @@ module Api
       # let(:post_obj) { FactoryGirl.create(:post, user: user) }
       # let!(:user) { FactoryGirl.create(:user) }
 
-      describe "POST #create" do
+      describe "USER #create" do
         it "creates the new user" do
           post api_v1_users_url,
             params: { "user": 
