@@ -8,7 +8,8 @@ gem 'pg', '~> 0.18'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 gem 'faker'
-gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
+# gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
+gem 'active_model_serializers', '~> 0.10.0'
 gem 'will_paginate', '~> 3.1.0'
 gem 'delayed_job_active_record'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
