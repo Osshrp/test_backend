@@ -15,17 +15,24 @@ module Api
           it "has a 401 status code" do
             get api_v1_posts_url,
               params: {},
-              headers: {Authorization: "Token token="}
+              headers: {
+                        Authorization: "Token token=",
+                        "Content-Type" => "application/json"
+                       }
             expect(response.status).to eq(401)
           end
         end
 
         describe "authorized access" do
           before do
-            get api_v1_posts_url,
+            get "#{api_v1_posts_url}.json",
               params: { },
-              headers: {Authorization: "Token token=#{user.token}"}
+              headers: {
+                        Authorization: "Token token=#{user.token}",
+                        "Content-Type" => "application/json"
+                       }
           end
+
           it "has a 200 status code" do
             expect(response.status).to eq(200)
           end
@@ -39,7 +46,7 @@ module Api
 
         describe "it has headers" do
           before do
-            get api_v1_posts_url,
+            get "#{api_v1_posts_url}.json",
             params: { page: "1" },
             headers: {Authorization: "Token token=#{user.token}"}
           end
@@ -57,7 +64,7 @@ module Api
 
       describe "POST #create" do
         it "creates the new post" do
-          post api_v1_posts_url,
+          post "#{api_v1_posts_url}.json",
             params: { "post": 
                       {
                         "title": post_obj.title,
@@ -74,7 +81,7 @@ module Api
         end
 
         it "returns array of errors" do
-          post api_v1_posts_url,
+          post "#{api_v1_posts_url}.json",
             params: { "post": 
                       {
                         "title": post_obj.title
@@ -85,7 +92,8 @@ module Api
                        Authorization: "Token token=#{user.token}"
                      }
           expect(response.content_type).to eq("application/json")
-          expect(JSON.parse(response.body)).to include({"body"=>["can't be blank"]})
+          expect(JSON.parse(response.body))
+            .to include({"errors" => {"body"=>["can't be blank"]}})
         end
       end
     end
