@@ -6,7 +6,7 @@ module Api
 
       describe "USER #create" do
         it "creates the new user" do
-          post api_v1_users_url,
+          post "#{api_v1_users_url}.json",
             params: { "user": 
                       {
                         "nickname": "Nicky",
