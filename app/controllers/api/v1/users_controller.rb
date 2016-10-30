@@ -10,7 +10,6 @@ class Api::V1::UsersController < ApplicationController
   def update
     @user.update user_params
     respond_with :api, :v1, @user
-    end
   end
 
   def create

@@ -11,7 +11,8 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def show
-    respont_with :api, :v1, @post
+    @post = Post.find params[:id]
+    respond_with :api, :v1, @post
   end
 
   def create

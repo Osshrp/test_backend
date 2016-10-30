@@ -5,16 +5,15 @@ module Api
     describe PostsController, type: :request do
       let(:post_obj) { FactoryGirl.create(:post, user: user) }
       let!(:user) { FactoryGirl.create(:user) }
+      let!(:headers) { { Authorization: "Token token=#{user.token}",
+                           "Content-Type" => "application/json" } }
 
       describe "GET #index" do
-        # let!(@user) { FactoryGirl.create(:user) }
         let!(:posts) { FactoryGirl.create_list(:post, 2, user: user) }
-
         describe "unauthorized access" do
 
           it "has a 401 status code" do
             get api_v1_posts_url,
-              params: {},
               headers: {
                         Authorization: "Token token=",
                         "Content-Type" => "application/json"
@@ -25,12 +24,7 @@ module Api
 
         describe "authorized access" do
           before do
-            get "#{api_v1_posts_url}.json",
-              params: { },
-              headers: {
-                        Authorization: "Token token=#{user.token}",
-                        "Content-Type" => "application/json"
-                       }
+            get "#{api_v1_posts_url}.json", headers: headers
           end
 
           it "has a 200 status code" do
@@ -42,13 +36,21 @@ module Api
               .to eq('application/json; charset=utf-8')
           end
 
+          it "has fields: id, title, body, published_at, author_nickname, comments" do
+            expect((JSON.parse(response.body)).first.keys)
+              .to contain_exactly("id",
+                                  "title",
+                                  "body",
+                                  "published_at",
+                                  "author_nickname",
+                                  "comments")
+          end
         end
 
         describe "it has headers" do
           before do
             get "#{api_v1_posts_url}.json",
-            params: { page: "1" },
-            headers: {Authorization: "Token token=#{user.token}"}
+            params: { page: "1" }, headers: headers
           end
           it "with total_entries" do
             expect(JSON.parse(response.headers["X-Pagination"])["total_entries"])
@@ -62,6 +64,26 @@ module Api
         end
       end
 
+      describe "GET #show" do
+        before do
+          get "#{api_v1_posts_url}/#{post_obj.id}.json", headers: headers
+        end
+
+        it "it has status 200" do
+          expect(response.status).to eq(200)
+        end
+
+        it "has fields: id, title, body, published_at, author_nickname, comments" do
+          expect(JSON.parse(response.body).keys)
+            .to contain_exactly("id",
+                                "title",
+                                "body",
+                                "published_at",
+                                "author_nickname",
+                                "comments")
+        end
+      end
+
       describe "POST #create" do
         it "creates the new post" do
           post "#{api_v1_posts_url}.json",
@@ -71,10 +93,8 @@ module Api
                         "body": post_obj.body,
                       }
                     }.to_json,
-            headers: { 
-                       "Content-Type" => "application/json",
-                       Authorization: "Token token=#{user.token}"
-                     }
+            headers: headers
+
           expect(response.content_type).to eq("application/json")
           expect(response.status).to eq(201)
           expect(JSON.parse(response.body)).to have_key("published_at")
@@ -87,10 +107,8 @@ module Api
                         "title": post_obj.title
                       }
                     }.to_json,
-            headers: { 
-                       "Content-Type" => "application/json",
-                       Authorization: "Token token=#{user.token}"
-                     }
+            headers: headers
+
           expect(response.content_type).to eq("application/json")
           expect(JSON.parse(response.body))
             .to include({"errors" => {"body"=>["can't be blank"]}})
