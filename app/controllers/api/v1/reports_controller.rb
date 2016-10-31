@@ -10,7 +10,7 @@ class Api::V1::ReportsController < ApplicationController
   private
 
   def load_users
-    @users = SelectUsers.select(report_params.to_h)
+    @users = User.select_users(report_params.to_h)
   end
 
   def report_params

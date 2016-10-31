@@ -5,26 +5,21 @@ module Api
     describe PostsController, type: :request do
       let(:post_obj) { FactoryGirl.create(:post, user: user) }
       let!(:user) { FactoryGirl.create(:user) }
-      let!(:headers) { { Authorization: "Token token=#{user.token}",
-                           "Content-Type" => "application/json" } }
+      let!(:headers) { { Authorization: "Token token=#{user.token}" } }
 
       describe "GET #index" do
         let!(:posts) { FactoryGirl.create_list(:post, 2, user: user) }
         describe "unauthorized access" do
 
           it "has a 401 status code" do
-            get api_v1_posts_url,
-              headers: {
-                        Authorization: "Token token=",
-                        "Content-Type" => "application/json"
-                       }
+            get api_v1_posts_url, as: :json
             expect(response.status).to eq(401)
           end
         end
 
         describe "authorized access" do
           before do
-            get "#{api_v1_posts_url}.json", headers: headers
+            get api_v1_posts_url, as: :json, headers: headers
           end
 
           it "has a 200 status code" do
@@ -49,7 +44,7 @@ module Api
 
         describe "it has headers" do
           before do
-            get "#{api_v1_posts_url}.json",
+            get api_v1_posts_url, as: :json,
             params: { page: "1" }, headers: headers
           end
           it "with total_entries" do
@@ -66,7 +61,7 @@ module Api
 
       describe "GET #show" do
         before do
-          get "#{api_v1_posts_url}/#{post_obj.id}.json", headers: headers
+          get "#{api_v1_posts_url}/#{post_obj.id}", as: :json, headers: headers
         end
 
         it "it has status 200" do
@@ -86,13 +81,13 @@ module Api
 
       describe "POST #create" do
         it "creates the new post" do
-          post "#{api_v1_posts_url}.json",
+          post api_v1_posts_url, as: :json,
             params: { "post": 
                       {
                         "title": post_obj.title,
                         "body": post_obj.body,
                       }
-                    }.to_json,
+                    },
             headers: headers
 
           expect(response.content_type).to eq("application/json")
@@ -101,12 +96,12 @@ module Api
         end
 
         it "returns array of errors" do
-          post "#{api_v1_posts_url}.json",
+          post api_v1_posts_url, as: :json,
             params: { "post": 
                       {
                         "title": post_obj.title
                       }
-                    }.to_json,
+                    },
             headers: headers
 
           expect(response.content_type).to eq("application/json")
