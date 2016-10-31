@@ -2,23 +2,17 @@ module Api
   module V1
     describe UsersController, type: :request do
       # let(:post_obj) { FactoryGirl.create(:post, user: user) }
-      # let!(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryGirl.create(:user) }
+      before do
+        get user_url user
+      end
+      describe "USER #show" do
+        it "return status 200" do
+          expect(response.status).to eq(200)
+        end
 
-      describe "USER #create" do
-        it "creates the new user" do
-          post "#{api_v1_users_url}.json",
-            params: { "user": 
-                      {
-                        "nickname": "Nicky",
-                        "email": "user@example.com",
-                        "password": "123456"
-                      }
-                    }.to_json,
-            headers: { 
-                       "Content-Type" => "application/json"
-                      }
-          expect(response.content_type).to eq("application/json")
-          expect(response.status).to eq(201)
+        it "renders user profile" do
+          expect(response.body).to include "Your avatar"
         end
       end
     end
