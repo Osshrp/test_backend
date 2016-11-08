@@ -12,8 +12,10 @@ class User < ApplicationRecord
   mount_uploader :avatar, AvatarUploader
 
   def self.select_users(params)
-    users = []
-    User.all.each do |user|
+    users_arr = []
+    users = User.left_joins(:posts, :comments).
+      where("posts.published_at between ? and ? or comments.published_at between ? and ?", "2016-10-19", "2016-10-20", "2016-10-19", "2016-10-19")
+    users.each do |user|
       user_hash = {}
       user_hash = {
         nickname: user.nickname,
@@ -23,7 +25,7 @@ class User < ApplicationRecord
         comments: user.comments.where("published_at between ? and ?",
          params[:start_date], params[:end_date]).count
       }
-      users << user_hash
+      user_arrs << user_hash
     end
     users.sort_by { |user| user[:quantity] = -(user[:posts]+user[:comments]).to_f/10 }
   end
