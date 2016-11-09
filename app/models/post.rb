@@ -4,7 +4,7 @@ class Post < ApplicationRecord
   validates :title, :body, presence: true
 
   def self.set_published_at(post)
-    post.published_at = DateTime.now
     @post = post
+    @post.published_at = DateTime.now
   end
 end
