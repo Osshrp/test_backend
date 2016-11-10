@@ -40,10 +40,5 @@ class User < ApplicationRecord
   def set_token
     return if token.present?
     SecureRandom.uuid.gsub(/\-/,'')
-    # self.token = generate_token
   end
-
-  # def generate_token
-  #   SecureRandom.uuid.gsub(/\-/,'')
-  # end
 end
