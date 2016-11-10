@@ -90,7 +90,6 @@ module Api
                     },
             headers: headers
 
-          expect(response.content_type).to eq("application/json")
           expect(response.status).to eq(201)
           expect(JSON.parse(response.body)).to have_key("published_at")
         end
@@ -104,7 +103,6 @@ module Api
                     },
             headers: headers
 
-          expect(response.content_type).to eq("application/json")
           expect(JSON.parse(response.body))
             .to include({"errors" => {"body"=>["can't be blank"]}})
         end

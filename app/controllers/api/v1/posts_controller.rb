@@ -28,14 +28,10 @@ class Api::V1::PostsController < ApplicationController
 
   def load_post
     @post = Post.new post_params
-    check_published_at
-    @post.user = @current_user
-  end
-
-  def check_published_at
     unless post_params[:published_at]
-      @post.published_at = DateTime.now
+      Post.set_published_at(@post)
     end
+    @post.user = @current_user
   end
 
   def paginate

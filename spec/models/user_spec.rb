@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'database_cleaner'
 
 describe User, type: :model do
   it { should have_many :posts }
@@ -25,5 +26,14 @@ describe User, type: :model do
   it "users should contain nickname Nick" do
     expect(@users).to include(include(:nickname => "Nick"))
   end
-end
+
+  it "should has corrent order" do
+    DatabaseCleaner.clean
+    expected_array = select_users(["Bill", "Jhon", "Linda"])
+    interval = {start_date: 3.days.ago, end_date: Date.today }
+    users = User.select_users(interval)
+
+    expect(users).to match_array(expected_array)
+    end
+  end
 end
